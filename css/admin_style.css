@@ -1,0 +1,81 @@
+.card-body{
+font-size: 13px;
+}
+table{
+text-align: center;
+}
+.zoom {
+transition: transform .1s; /* Animation */
+}
+.zoom:hover {
+transform: scale(8.0); /* (150% zoom)*/
+}
+.parallel_div{
+padding: 0;
+}
+.parallel_content{
+margin: 20px 30px 0 30px;
+padding: 30px;
+background-color: #ffffff;
+box-shadow: 0 0 3px #ccc;
+border-radius: 8px;
+}
+.parallel_content p:first-child{
+border-bottom: 1px solid #ccc;
+padding-bottom: 5px;
+font-weight: 600;
+}
+.parallel_content img{
+width:300px;
+height:300px;
+}
+.parallel_right{
+margin-top: 35px;
+width: 50%;
+float: right;
+}
+.parallel_left{
+margin-top: 35px;
+width: 100%;
+float: left;
+}
+.parallel_header{
+border: none;
+}
+.parallel_header{
+border-bottom: 1px solid #ccc;
+padding: 10px 0;
+font-size: 0.95em;
+font-weight: 600;
+margin: 0 30px;
+width: 95%;
+}
+.parallel_content{
+margin: 0 30px;
+font-size: 0.92em;
+}
+.parallel_text_left{
+display:inline-block;
+width:30%;
+margin: 2px 0;
+padding: 5px 0;
+}
+.parallel_text_right{
+display:inline-block;
+width:60%;
+margin: 2px 0;
+padding: 5px 0;
+}
+input[type="text"], .parallel_text_right{
+display:inline-block;
+/*width:60%;*/
+/*margin: 2px 0;
+padding: 5px 0;*/
+}
+
+.login-logo, .register-logo {
+ margin-bottom: 0px !important;
+}
+body{
+background-color: #d6c1c1 !important;
+}
