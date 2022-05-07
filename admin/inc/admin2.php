@@ -242,151 +242,144 @@
            return json_encode($result_data);
        }
 
-       public function getItemsListOnLoad($location){
-        if($location == 1){
-          $args = array("location" => $location);
-   
-           $sql = "SELECT * FROM item      
-           LEFT JOIN category ON category.category_id = item.category_id
-           LEFT JOIN brand ON brand.brand_id = item.brand_id
-           LEFT JOIN model ON model.model_id = item.model_id
-           LEFT JOIN region ON region.region_id = item.region_current
-           LEFT JOIN user ON user.location = region.region_id
-          
-           GROUP BY item.item_id       
-           ORDER BY item_id DESC";
+        public function getItemsListOnLoad($location){
+            $args = array("location" => $location);
 
-        }else{
-          $args = array("location" => $location);
-   
-             $sql = "SELECT * FROM item      
-             LEFT JOIN category ON category.category_id = item.category_id
-             LEFT JOIN brand ON brand.brand_id = item.brand_id
-             LEFT JOIN model ON model.model_id = item.model_id
-             LEFT JOIN region ON region.region_id = item.region_current
-             LEFT JOIN user ON user.location = region.region_id
-             WHERE user.location = :location
-             GROUP BY item.item_id       
-             ORDER BY item_id DESC";
-        }
+            if($location == 1){
+                $sql = "SELECT * FROM item      
+                    LEFT JOIN category ON category.category_id = item.category_id
+                    LEFT JOIN brand ON brand.brand_id = item.brand_id
+                    LEFT JOIN model ON model.model_id = item.model_id
+                    LEFT JOIN region ON region.region_id = item.region_current
+                    LEFT JOIN user ON user.location = region.region_id
+                    
+                    GROUP BY item.item_id       
+                    ORDER BY item_id DESC";
+            }else{
+                $sql = "SELECT * FROM item      
+                    LEFT JOIN category ON category.category_id = item.category_id
+                    LEFT JOIN brand ON brand.brand_id = item.brand_id
+                    LEFT JOIN model ON model.model_id = item.model_id
+                    LEFT JOIN region ON region.region_id = item.region_current
+                    LEFT JOIN user ON user.location = region.region_id
+                    WHERE user.location = :location
 
+                    GROUP BY item.item_id       
+                    ORDER BY item_id DESC";
+            }
        
-      $result = $this->conn->prepare($sql);
-        $result->execute($args);
+            $result = $this->conn->prepare($sql);
+            $result->execute($args);
 
-        if($result->rowCount() > 0){
+            if($result->rowCount() > 0){
 
-            foreach ($result as $key => $value) {
+                foreach ($result as $key => $value){
+                    if($value["serial_no"] == ""){
+                        $serial_no = "Null";
+                    }else {
+                        $serial_no = $value["serial_no"];
+                    }
 
-              if ($value["serial_no"] == ""){
-                   $serial_no = "Null";
-               }else {
-                   $serial_no = $value["serial_no"];
-               }
+                    $data[$key]["category_desc"] = $value["category_desc"];
+                    $data[$key]["brand_desc"] = $value["brand_desc"];
+                    $data[$key]["serial_no"] =  $serial_no;  
+                    $data[$key]["model_desc"] = $value["model_desc"];                                                              
+                    $data[$key]["region_current"] =  $value["region_current"];
+                    $data[$key]["region_name"] =  $value["region_name"];
+                    $data[$key]["createdBy"] =  $value["createdBy"];
+                    $data[$key]["createdDt"] =  $value["createdDt"];  
+                    $data[$key]["item_id"] =  $value["item_id"];                               
+                }
 
-               $data[$key]["category_desc"] = $value["category_desc"];
-               $data[$key]["brand_desc"] = $value["brand_desc"];
-               $data[$key]["serial_no"] =  $serial_no;  
-               $data[$key]["model_desc"] = $value["model_desc"];                                                              
-               $data[$key]["region_current"] =  $value["region_current"];
-               $data[$key]["region_name"] =  $value["region_name"];
-               $data[$key]["createdBy"] =  $value["createdBy"];
-               $data[$key]["createdDt"] =  $value["createdDt"];  
-               $data[$key]["item_id"] =  $value["item_id"];                               
-              
-               }
-            $result_data["valid"] =true;
-            $result_data["data"] = $data;
-        }else{
-            $result_data["valid"] = false;
-            $result_data["msg"] = "No record found.";
+                $result_data["valid"] =true;
+                $result_data["data"] = $data;
+            }else{
+                $result_data["valid"] = false;
+                $result_data["msg"] = "No record found.";
+            }
+   
+            return json_encode($result_data);  
         }
-   
-   
-       return json_encode($result_data);  
-       
-   }
 
        public function getSendItemsToRegionListOnLoad($location){
 
         if($location == 1){
-          $args = array("location" => $location);
-   
-       $sql = "SELECT * FROM item      
-       LEFT JOIN category ON category.category_id = item.category_id
-       LEFT JOIN brand ON brand.brand_id = item.brand_id
-       LEFT JOIN model ON model.model_id = item.model_id
-       LEFT JOIN region ON region.region_id = item.region_current
-       LEFT JOIN user ON user.location = region.region_id
+            $args = array("location" => $location);
     
-       GROUP BY item.item_id       
-       ORDER BY item_id DESC";
+            $sql = "SELECT * FROM item      
+            LEFT JOIN category ON category.category_id = item.category_id
+            LEFT JOIN brand ON brand.brand_id = item.brand_id
+            LEFT JOIN model ON model.model_id = item.model_id
+            LEFT JOIN region ON region.region_id = item.region_current
+            LEFT JOIN user ON user.location = region.region_id
+            
+            GROUP BY item.item_id       
+            ORDER BY item_id DESC";
 
         }else{
-          $args = array("location" => $location);
-   
-       $sql = "SELECT * FROM item      
-       LEFT JOIN category ON category.category_id = item.category_id
-       LEFT JOIN brand ON brand.brand_id = item.brand_id
-       LEFT JOIN model ON model.model_id = item.model_id
-       LEFT JOIN region ON region.region_id = item.region_current
-       LEFT JOIN user ON user.location = region.region_id
-       WHERE user.location = :location
-       GROUP BY item.item_id       
-       ORDER BY item_id DESC";
+            $args = array("location" => $location);
+    
+            $sql = "SELECT * FROM item      
+            LEFT JOIN category ON category.category_id = item.category_id
+            LEFT JOIN brand ON brand.brand_id = item.brand_id
+            LEFT JOIN model ON model.model_id = item.model_id
+            LEFT JOIN region ON region.region_id = item.region_current
+            LEFT JOIN user ON user.location = region.region_id
+            WHERE user.location = :location
+            GROUP BY item.item_id       
+            ORDER BY item_id DESC";
         }
 
-       
-      $result = $this->conn->prepare($sql);
-        $result->execute($args);
+        $result = $this->conn->prepare($sql);
+            $result->execute($args);
 
-        if($result->rowCount() > 0){
+            if($result->rowCount() > 0){
 
-            foreach ($result as $key => $value) {
+                foreach ($result as $key => $value) {
 
-              if ($value["serial_no"] == ""){
-                   $serial_no = "Null";
-               }else {
-                   $serial_no = $value["serial_no"];
-               }         
+                if ($value["serial_no"] == ""){
+                    $serial_no = "Null";
+                }else {
+                    $serial_no = $value["serial_no"];
+                }         
 
-               if ($value["asset_name"] == ""){
-                   $asset_name = "Null";
-               }else {
-                   $asset_name = $value["asset_name"];
-               }
-
-               if ($value["barcode"] == ""){
-                   $barcode = "Null";
-               }else {
-                   $barcode = $value["barcode"];
-               }
-
-               $data[$key]["category_desc"] = $value["category_desc"];
-               $data[$key]["brand_desc"] = $value["brand_desc"];
-               $data[$key]["serial_no"] =  $serial_no;  
-               $data[$key]["model_desc"] = $value["model_desc"];
-               // $data[$key]["asset_name"] = $value["asset_name"];
-               // $data[$key]["barcode"] = $value["barcode"];
-               $data[$key]["region_from"] =  $value["region_from"];
-               $data[$key]["region_current"] =  $value["region_current"];
-               $data[$key]["region_name"] =  $value["region_name"];
-               // $data[$key]["createdBy"] =  $value["createdBy"];
-               // $data[$key]["createdDt"] =  $value["createdDt"];
-               $data[$key]["item_id"] = $value["item_id"];                                                                                       
-
+                if ($value["asset_name"] == ""){
+                    $asset_name = "Null";
+                }else {
+                    $asset_name = $value["asset_name"];
                 }
-            $result_data["valid"] =true;
-            $result_data["data"] = $data;
-        }else{
-            $result_data["valid"] = false;
-            $result_data["msg"] = "No record found.";
-        }
-   
-   
-       return json_encode($result_data);  
+
+                if ($value["barcode"] == ""){
+                    $barcode = "Null";
+                }else {
+                    $barcode = $value["barcode"];
+                }
+
+                $data[$key]["category_desc"] = $value["category_desc"];
+                $data[$key]["brand_desc"] = $value["brand_desc"];
+                $data[$key]["serial_no"] =  $serial_no;  
+                $data[$key]["model_desc"] = $value["model_desc"];
+                // $data[$key]["asset_name"] = $value["asset_name"];
+                // $data[$key]["barcode"] = $value["barcode"];
+                $data[$key]["region_from"] =  $value["region_from"];
+                $data[$key]["region_current"] =  $value["region_current"];
+                $data[$key]["region_name"] =  $value["region_name"];
+                // $data[$key]["createdBy"] =  $value["createdBy"];
+                // $data[$key]["createdDt"] =  $value["createdDt"];
+                $data[$key]["item_id"] = $value["item_id"];                                                                                       
+
+                    }
+                $result_data["valid"] =true;
+                $result_data["data"] = $data;
+            }else{
+                $result_data["valid"] = false;
+                $result_data["msg"] = "No record found.";
+            }
+    
+    
+        return json_encode($result_data);  
        
-   }
+    }
 
    public function getItemStatus($item_id){
        $args = array("item_id" => $item_id);

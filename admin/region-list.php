@@ -1,42 +1,36 @@
-<?php include "inc/app-top.php"; 
-   ?>
-
 <?php 
-include "inc/admin.php";
-$admin = new Admins();
+    include "inc/app-top.php"; 
+    include "inc/admin.php";
 
-$location = $_SESSION["location"];
-
-$result_item = $admin->getSendItemsToRegionListOnLoad($_SESSION['location']);
-$array_item = json_decode($result_item,true);
+    $admin = new Admins();
+    $location = (isset($_GET["location"]) ? $_GET["location"] : '1');
+    $result_item = $admin->getSendItemsToRegionListOnLoad($location);
+    $array_item = json_decode($result_item,true);
 ?>
 
 <!DOCTYPE html>
 <html>
    <head>
-      <?php include "inc/head.php"; ?>
-      <style>
-        .user-form {
-        display: inline-block !important;
-        width: 100% !important;
-        margin: 2px 0 !important;
-        padding: 5px 0 !important;
-    }
+        <?php include "inc/head.php"; ?>
 
-    .user-submit{
-      margin-top: 20px;
-      float: right;
-    }
+        <style>
+            .user-form {
+                display: inline-block !important;
+                width: 100% !important;
+                margin: 2px 0 !important;
+                padding: 5px 0 !important;
+            }
 
-    .card-body{
-      width: 100% !important;
+            .user-submit{
+            margin-top: 20px;
+            float: right;
+            }
 
-    }
+            .card-body{
+            width: 100% !important;
 
-
-      </style>
-    
-
+            }
+        </style>
    </head>
    <!-- <body class="hold-transition sidebar-mini layout-fixed" onload="getSendItemsToRegionListOnLoad();"> -->
 

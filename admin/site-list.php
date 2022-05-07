@@ -2,13 +2,12 @@
    ?>
 
 <?php 
-include "inc/admin2.php";
-$admin = new Admins();
+  include "inc/admin2.php";
 
-$location = $_SESSION["location"];
-
-$result_item = $admin->getSendItemsToSiteListOnLoad($_SESSION['location']);
-$array_item = json_decode($result_item,true);
+  $admin = new Admins();
+  $location = (isset($_GET["location"]) ? $_GET["location"] : '1');
+  $result_item = $admin->getSendItemsToSiteListOnLoad($location);
+  $array_item = json_decode($result_item,true);
 ?>
 
 <!DOCTYPE html>

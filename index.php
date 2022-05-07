@@ -34,7 +34,8 @@
         </div>
         <div class="row">
           <div class="col-8">
-            <a href="#" style="display: flex;align-items: center;height: 100%;text-decoration: none;font-size:15px;" type="button" data-toggle="modal" data-target="#registeruser">Register New User</a>
+            <!-- <a href="#" style="display: flex;align-items: center;height: 100%;text-decoration: none;font-size:15px;" type="button" data-toggle="modal" data-target="#registeruser">Register New User</a>\ -->
+            <a href="./admin/index.php" style="display: flex;align-items: center;height: 100%;text-decoration: none;font-size:15px;" type="button">Login As Admin</a>
           </div>
           <!-- /.col -->
           <div class="col-4">
