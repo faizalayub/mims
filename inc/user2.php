@@ -56,6 +56,30 @@
 
             return json_encode($result_data);
         }
+
+        public function changePasswordUser($array){
+            $result_data = [];
+            $oldkey  = password_hash($array["oldvalue"], PASSWORD_DEFAULT);
+            $newkey  = password_hash($array["newvalue"], PASSWORD_DEFAULT);
+
+            $args_check = array("id" => $array["userid"]);
+            $result_check = $this->conn->prepare("SELECT * FROM user WHERE id = :id");
+            $result_check->execute($args_check);
+
+            $row = $result_check->fetchObject();
+
+            if (password_verify($array["oldvalue"], $row->user_password)){
+                $result_data['status'] = 'Password updated!';
+                $result_data['statuscode'] = 200;
+                
+                $this->conn->prepare("UPDATE `user` SET `user_password` = '".$newkey."' WHERE `user`.`id` = ".$array["userid"]." ")->execute();
+            }else{
+                $result_data['status'] = 'Old password not match';
+                $result_data['statuscode'] = 400;
+            }
+
+            return json_encode($result_data);
+        }
    
        public function addItem($array){
          $serial_no = $array["serial_no"];

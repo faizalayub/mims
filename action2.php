@@ -11,8 +11,8 @@
         echo $result;
     } 
 
-    if ($action == "registerNewUser"){
-        $result = $users->registerUserLogin($_POST);
+    if ($action == "changeuserpassword"){
+        $result = $users->changePasswordUser($_POST);
         echo $result;
     }    
     
