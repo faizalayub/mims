@@ -189,75 +189,82 @@
       <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
       <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
          <script>
-         function getSendItemsToSiteListOnLoad(){
+          function getSendItemsToSiteListOnLoad(){
 
-         var location = $("#location").val();
-         var formData = new FormData()
+          var location = $("#location").val();
+          var formData = new FormData()
 
-         formData.append("action","getSendItemsToSiteListOnLoad");
-         formData.append("location", location)
-      
-        $.ajax({
-          type:'post',
-          url:'action2.php',
-          data:{"action":"getSendItemsToSiteListOnLoad"},
-          success:function(result){
-            var result_obj = JSON.parse(result);
-      
-            if(result_obj.valid){
-              document.getElementById("tableData").innerHTML = result_obj.html;
-             $('#example').DataTable();
-      
-            }else{
-      
+          formData.append("action","getSendItemsToSiteListOnLoad");
+          formData.append("location", location)
+        
+          $.ajax({
+            type:'post',
+            url:'action2.php',
+            data:{"action":"getSendItemsToSiteListOnLoad"},
+            success:function(result){
+              var result_obj = JSON.parse(result);
+        
+              if(result_obj.valid){
+                document.getElementById("tableData").innerHTML = result_obj.html;
+              $('#example').DataTable();
+        
+              }else{
+        
+              }
             }
-          }
-        })
-      }
+          })
+        }
 
-      function deleteItem(item_id){
-          swal({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes'
-          }).then((result) => {
-            if(result.value){
-              var formData = {
-                "action"     : "deleteItem",
-                "item_id" : item_id
-              };
-      
-              $.ajax({
-                type:'post',
-                url:'action2.php',
-                data:formData,
-                success:function(result){
-                  var result_obj = JSON.parse(result);
-      
-                  if(result_obj.valid){
-                    swal({
-                      type:'success',
-                      title:'Success',
-                      html:result_obj.msg
-                    }).then(function(){
-                      location.reload();
-                    });
-                  }else{
-                    swal({
-                      type:'error',
-                      title:'Oops..',
-                      html:result_obj.msg
-                    });
+        function deleteItem(item_id){
+            swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+            }).then((result) => {
+              if(result.value){
+                var formData = {
+                  "action"     : "deleteItem",
+                  "item_id" : item_id
+                };
+        
+                $.ajax({
+                  type:'post',
+                  url:'action2.php',
+                  data:formData,
+                  success:function(result){
+                    var result_obj = JSON.parse(result);
+        
+                    if(result_obj.valid){
+                      swal({
+                        type:'success',
+                        title:'Success',
+                        html:result_obj.msg
+                      }).then(function(){
+                        location.reload();
+                      });
+                    }else{
+                      swal({
+                        type:'error',
+                        title:'Oops..',
+                        html:result_obj.msg
+                      });
+                    }
                   }
-                }
-              })
-            }
-          });
-      }
+                })
+              }
+            });
+        }
+
+
+      $(document).ready(function(){
+        setTimeout(() => {
+          $('#example').DataTable();
+        }, 100);
+      })
 
     </script>  
    </body>
