@@ -75,47 +75,43 @@
                            <!-- /.card-header -->
                            <div class="card-body">
                             <!-- <input type="text"  id="location" name="location" value="<?php echo $_SESSION["location"]; ?>"> -->
-                              <table id="example" class="table table-bordered table-striped"  style="text-align: center;">
-                                 <thead>
-                                    <tr>
-                                      <th>No</th>
-                                      <th>Category</th>                                                    
-                                      <th>Brand</th>
-                                      <th>Serial Number</th>
-                                      <th>Model</th>
-                                      <!-- <th>Location</th> -->
-                                      <th>Date Created</th>
-                                      <th>Created By</th>                                      
-                                      <th>Action</th>
-                                    </tr>
-                                 </thead> 
+                            <table id="example" class="table table-bordered table-striped"  style="text-align: center;">
+                                <thead>
+                                  <tr>
+                                    <th>No</th>
+                                    <th>Category</th>                                                    
+                                    <th>Brand</th>
+                                    <th>Serial Number</th>
+                                    <th>Model</th>
+                                    <th>Location</th>
+                                    <th>Date Created</th>
+                                    <th>Created By</th>                                      
+                                    <th>Action</th>
+                                  </tr>
+                                </thead> 
                                                           
-                                 <tbody>   
+                                <tbody>   
                                  <?php 
                       if($array_item["valid"]){
                         $count =1;
                         for($a=0;$a<count($array_item["data"]);$a++){
                           ?> 
-                          <tr>
-                                  <td><?php echo $count; ?></td>
-                                  <td><?php echo $array_item["data"][$a]["category_desc"]; ?></td>
-                                  <td><?php echo $array_item["data"][$a]["brand_desc"]; ?></td>
-                                  <td><?php echo $array_item["data"][$a]["serial_no"]; ?></td>
-                                  <td><?php echo $array_item["data"][$a]["model_desc"]; ?></td>
-                                  <!-- <td><?php echo $array_item["data"][$a]["region_name"]; ?></td> -->
-                                  <td><?php echo $array_item["data"][$a]["createdDt"]; ?></td>
-                                  <td><?php echo $array_item["data"][$a]["createdBy"]; ?></td>                                  
-                               
-                                  <td>
-                                    <a href="item-view.php?item_id=<?php echo $array_item['data'][$a]['item_id']; ?>" target="" style="color:#000">
-                                      <i class="material-icons">pageview</i></a> | <a href="item-edit.php?item_id=<?php echo $array_item["data"][$a]["item_id"]; ?>" target="" style="color:#000"><i class="material-icons">edit</i></a> | <a id="<?php echo $array_item["data"][$a]["item_id"]; ?>" onclick="deleteItem(this.id);" style="color:#000"><i class="material-icons">delete</i>
-                                     </a>
-                                   </td>
-                              
-
-                               </tr>                            
-                                
-
+                            <tr>
+                              <td><?php echo $count; ?></td>
+                              <td><?php echo $array_item["data"][$a]["category_desc"]; ?></td>
+                              <td><?php echo $array_item["data"][$a]["brand_desc"]; ?></td>
+                              <td><?php echo $array_item["data"][$a]["serial_no"]; ?></td>
+                              <td><?php echo $array_item["data"][$a]["model_desc"]; ?></td>
+                              <td><?php echo $array_item["data"][$a]["region_name"]; ?></td>
+                              <td><?php echo $array_item["data"][$a]["createdDt"]; ?></td>
+                              <td><?php echo $array_item["data"][$a]["createdBy"]; ?></td>                                  
+                          
+                              <td>
+                                <a href="item-view.php?item_id=<?php echo $array_item['data'][$a]['item_id']; ?>" target="" style="color:#000">
+                                  <i class="material-icons">pageview</i></a> | <a href="item-edit.php?item_id=<?php echo $array_item["data"][$a]["item_id"]; ?>" target="" style="color:#000"><i class="material-icons">edit</i></a> | <a id="<?php echo $array_item["data"][$a]["item_id"]; ?>" onclick="deleteItem(this.id);" style="color:#000"><i class="material-icons">delete</i>
+                                </a>
+                              </td>
+                            </tr>
                      <?php
                           $count++;
                         }
