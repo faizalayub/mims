@@ -1158,7 +1158,8 @@
                 count(case when region_current='11' AND agency_id='' then 1 end),
                 count(case when region_current='12' AND agency_id='' then 1 end),
                 count(case when region_current='14' AND agency_id='' then 1 end),
-                count(case when region_current='18' AND agency_id='' then 1 end)
+                count(case when region_current='18' AND agency_id='' then 1 end),
+                count(case when region_current='19' AND agency_id='' then 1 end)
                 FROM item
                 RIGHT JOIN category ON category.category_id=item.category_id
                 GROUP BY category_desc
@@ -1188,7 +1189,8 @@
                     <td style="text-align: center;"><a href="home-view.php?category_desc='.$value["category_desc"].'&region_name=Melaka" target="">'.$value["count(case when region_current='11' AND agency_id='' then 1 end)"].'</a></td>
                     <td style="text-align: center;"><a href="home-view.php?category_desc='.$value["category_desc"].'&region_name=Pahang" target="">'.$value["count(case when region_current='12' AND agency_id='' then 1 end)"].'</a></td>
                     <td style="text-align: center;"><a href="home-view.php?category_desc='.$value["category_desc"].'&region_name=Miri" target="">'.$value["count(case when region_current='14' AND agency_id='' then 1 end)"].'</a></td>
-                    <td style="text-align: center;"><a href="home-view.php?category_desc='.$value["category_desc"].'&region_name=Kuching" target="">'.$value["count(case when region_current='18' AND agency_id='' then 1 end)"].'</a></td>';
+                    <td style="text-align: center;"><a href="home-view.php?category_desc='.$value["category_desc"].'&region_name=Kuching" target="">'.$value["count(case when region_current='18' AND agency_id='' then 1 end)"].'</a></td>
+                    <td style="text-align: center;"><a href="home-view.php?category_desc='.$value["category_desc"].'&region_name=Perlis" target="">'.$value["count(case when region_current='19' AND agency_id='' then 1 end)"].'</a></td>';
                     $i++;   
             }
 
@@ -1286,8 +1288,58 @@
         return json_encode($result_data);
     }
    
-   public function getMonthlyItemListOnLoad(){
-       $sql = "SELECT category_desc,
+    public function getMonthlyItemListOnLoad(){
+        $result = [];
+        $allcategory = $this->conn->prepare("SELECT * FROM category");
+        $allcategory->execute();
+
+        foreach($allcategory as $c){
+            $categorycollection = [];
+            $catid = $c['category_id'];
+
+            $jan = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-01-%'");
+            $feb = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-02-%'");
+            $mac = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-03-%'");
+            $apr = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-04-%'");
+            $may = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-05-%'");
+            $jun = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-06-%'");
+            $jul = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-07-%'");
+            $aug = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-08-%'");
+            $sep = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-09-%'");
+            $oct = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-10-%'");
+            $nov = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-11-%'");
+            $dec = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-12-%'");
+
+            $jan->execute();
+            $feb->execute();
+            $mac->execute();
+            $apr->execute();
+            $may->execute();
+            $jun->execute();
+            $jul->execute();
+            $aug->execute();
+            $sep->execute();
+            $oct->execute();
+            $nov->execute();
+            $dec->execute();
+
+            $categorycollection['category_desc'] = $c['category_desc'];
+            $categorycollection['one']    = count($jan->fetchAll());
+            $categorycollection['two']    = count($feb->fetchAll());
+            $categorycollection['three']  = count($mac->fetchAll());
+            $categorycollection['four']   = count($apr->fetchAll());
+            $categorycollection['five']   = count($may->fetchAll());
+            $categorycollection['six']    = count($jun->fetchAll());
+            $categorycollection['seven']  = count($jul->fetchAll());
+            $categorycollection['eight']  = count($aug->fetchAll());
+            $categorycollection['nine']   = count($sep->fetchAll());
+            $categorycollection['ten']    = count($oct->fetchAll());
+            $categorycollection['eleven'] = count($nov->fetchAll());
+            $categorycollection['twelve'] = count($dec->fetchAll());
+            $result[] = $categorycollection;
+        }
+
+       /*$sql = "SELECT category_desc,
                count(case when month(datetime)='1' then 1 end) as one,
                count(case when month(datetime)='2' OR month(datetime)='1' then 1 end) as two,
                count(case when month(datetime)='3' OR month(datetime)='2' OR month(datetime)='1' then 1 end) as three,
@@ -1304,11 +1356,11 @@
                RIGHT JOIN category ON category.category_id=monthly.category_id
                GROUP BY category_desc
                ORDER BY category_desc ASC";
-       $result= $this->conn->prepare($sql);
-       $result->execute();
+       $result = $this->conn->prepare($sql);
+       $result->execute();*/
    
-       $i = 1;
-        if($result-> rowCount() > 0 ){
+        $i = 1;
+        if(count($result) > 0 ){
             $result_data["valid"] = true;
             $tableOnLoad = '';
 
@@ -1344,7 +1396,57 @@
     }
 
      public function getMonthlyGraph(){
-        $sql = "SELECT category_desc,
+        $result = [];
+        $allcategory = $this->conn->prepare("SELECT * FROM category");
+        $allcategory->execute();
+
+        foreach($allcategory as $c){
+            $categorycollection = [];
+            $catid = $c['category_id'];
+
+            $jan = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-01-%'");
+            $feb = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-02-%'");
+            $mac = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-03-%'");
+            $apr = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-04-%'");
+            $may = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-05-%'");
+            $jun = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-06-%'");
+            $jul = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-07-%'");
+            $aug = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-08-%'");
+            $sep = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-09-%'");
+            $oct = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-10-%'");
+            $nov = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-11-%'");
+            $dec = $this->conn->prepare("SELECT * FROM `category` JOIN item WHERE item.category_id = category.category_id AND category.category_id='".$catid."' AND item.createdDt LIKE '%-12-%'");
+
+            $jan->execute();
+            $feb->execute();
+            $mac->execute();
+            $apr->execute();
+            $may->execute();
+            $jun->execute();
+            $jul->execute();
+            $aug->execute();
+            $sep->execute();
+            $oct->execute();
+            $nov->execute();
+            $dec->execute();
+
+            $categorycollection['category_desc'] = $c['category_desc'];
+            $categorycollection['january']    = count($jan->fetchAll());
+            $categorycollection['february']    = count($feb->fetchAll());
+            $categorycollection['march']  = count($mac->fetchAll());
+            $categorycollection['april']   = count($apr->fetchAll());
+            $categorycollection['may']   = count($may->fetchAll());
+            $categorycollection['june']    = count($jun->fetchAll());
+            $categorycollection['july']  = count($jul->fetchAll());
+            $categorycollection['august']  = count($aug->fetchAll());
+            $categorycollection['september']   = count($sep->fetchAll());
+            $categorycollection['october']    = count($oct->fetchAll());
+            $categorycollection['november'] = count($nov->fetchAll());
+            $categorycollection['december'] = count($dec->fetchAll());
+            $result[] = $categorycollection;
+        }
+        
+        /*$sql = "SELECT category_desc,
                count(case when month(datetime)='1' then 1 end) as january,
                count(case when month(datetime)='2' OR month(datetime)='1' then 1 end) as february,
                count(case when month(datetime)='3' OR month(datetime)='2' OR month(datetime)='1' then 1 end) as march,
@@ -1362,7 +1464,7 @@
                GROUP BY category_desc
                ORDER BY category_desc ASC";
         $result= $this->conn->prepare($sql);
-        $result->execute();
+        $result->execute();*/
         $result_data = array();
         foreach ($result as $row) {
           $result_data[] = $row;

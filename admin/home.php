@@ -80,6 +80,7 @@
                                           <th>Pahang</th>
                                           <th>Miri</th>
                                           <th>Kuching</th>
+                                          <th>Perlis</th>
                                        </tr>
                                     </thead>
                                     

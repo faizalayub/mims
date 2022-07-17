@@ -79,7 +79,8 @@
                                 <thead>
                                   <tr>
                                     <th>No</th>
-                                    <th>Category</th>                                                    
+                                    <th>Category</th>  
+                                    <th>Status</th>                                                    
                                     <th>Brand</th>
                                     <th>Serial Number</th>
                                     <th>Model</th>
@@ -99,6 +100,7 @@
                             <tr>
                               <td><?php echo $count; ?></td>
                               <td><?php echo $array_item["data"][$a]["category_desc"]; ?></td>
+                              <td><?php echo $array_item["data"][$a]["status_desc"]; ?></td>
                               <td><?php echo $array_item["data"][$a]["brand_desc"]; ?></td>
                               <td><?php echo $array_item["data"][$a]["serial_no"]; ?></td>
                               <td><?php echo $array_item["data"][$a]["model_desc"]; ?></td>

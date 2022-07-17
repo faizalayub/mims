@@ -252,6 +252,7 @@
                     LEFT JOIN model ON model.model_id = item.model_id
                     LEFT JOIN region ON region.region_id = item.region_current
                     LEFT JOIN user ON user.location = region.region_id
+                    LEFT JOIN status ON status.status_id = item.status_id
                     
                     GROUP BY item.item_id       
                     ORDER BY item_id DESC";
@@ -262,6 +263,8 @@
                     LEFT JOIN model ON model.model_id = item.model_id
                     LEFT JOIN region ON region.region_id = item.region_current
                     LEFT JOIN user ON user.location = region.region_id
+                    LEFT JOIN status ON status.status_id = item.status_id
+
                     WHERE user.location = :location
 
                     GROUP BY item.item_id       
@@ -280,6 +283,7 @@
                         $serial_no = $value["serial_no"];
                     }
 
+                    $data[$key]["status_desc"] = $value["status_desc"];
                     $data[$key]["category_desc"] = $value["category_desc"];
                     $data[$key]["brand_desc"] = $value["brand_desc"];
                     $data[$key]["serial_no"] =  $serial_no;  
